@@ -4,6 +4,10 @@ from airflow.utils.decorators import apply_defaults
 
 
 class LoadDimensionOperator(BaseOperator):
+    """
+    Operator that is responsible to truncate and load the Dimension table.
+    This operator only truncates the dimension table if the flag `truncate_before_load` is activated
+    """
 
     ui_color = '#80BD9E'
 
@@ -27,7 +31,7 @@ class LoadDimensionOperator(BaseOperator):
         redshift_hook = PostgresHook(self.redshift_conn_id)
 
         if self.truncate_before_load:
-            self.log.info(f'Trucanting the {self.target_table} table')
+            self.log.info(f'Truncating the {self.target_table} table')
             redshift_hook.run(f"TRUNCATE TABLE {self.target_table}")
 
         query = """INSERT INTO {} {}""".format(self.target_table, self.sql)

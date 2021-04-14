@@ -4,6 +4,9 @@ from airflow.utils.decorators import apply_defaults
 
 
 class LoadFactOperator(BaseOperator):
+    """
+    Operator that is responsible to truncate and load the Fact table.
+    """
 
     ui_color = '#F98866'
 
